@@ -1,7 +1,6 @@
-﻿using MediportaZadRek.Data;
-using MediportaZadRek.Models;
+﻿using MediportaZadRek.Models;
 using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing;
-using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.Common;
+using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.ListHandlers;
 using MediportaZadRek.QCRS.Common.Interfaces;
 
 namespace MediportaZadRek.QCRS.Tag.Queries
@@ -14,45 +13,11 @@ namespace MediportaZadRek.QCRS.Tag.Queries
         public SortOrder SortOrder { get; set; }
     }
 
-    public class IndexQueryPreprocessor
-    {
-        private List<IHandler> handlers;
-        public IndexQueryPreprocessor()
-        {
-            handlers = new List<IHandler>();
-        }
-
-        public IndexQueryPreprocessor AddHandler(IHandler handler)
-        {
-            handlers.Add(handler);
-            return this;
-        }
-
-        public object Process(object obj)
-        {
-            SetChainOfHandlers();
-            return Handle(obj);
-        }
-
-        private void SetChainOfHandlers()
-        {
-            for (int i = 0; i < handlers.Count() - 1; ++i)
-            {
-                handlers[i].SetNext(handlers[i + 1]);
-            }
-        }
-
-        private object Handle(object obj)
-        {
-            return handlers.First().Handle(obj);
-        }
-    }
-
     public class IndexQueryHandler
     {
         private readonly IDbContext _dbContext;
 
-        public IndexQueryHandler(AppDbContext dbContext)
+        public IndexQueryHandler(IDbContext dbContext)
         {
             _dbContext = dbContext;
         }

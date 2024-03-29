@@ -3,7 +3,7 @@ using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.Common;
 using Microsoft.OpenApi.Extensions;
 using System.Linq.Dynamic.Core;
 
-namespace MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing
+namespace MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.ListHandlers
 {
     public class OrderedListHandler : AbstractHandler
     {

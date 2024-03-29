@@ -1,6 +1,6 @@
 ﻿using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.Common;
 
-namespace MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing
+namespace MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.ListHandlers
 {
     public class PaginatedListHandler : AbstractHandler
     {
