@@ -1,11 +1,12 @@
-﻿using MediportaZadRek.Models;
+﻿using MediatR;
+using MediportaZadRek.Models;
 using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing;
 using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.ListHandlers;
 using MediportaZadRek.QCRS.Common.Interfaces;
 
 namespace MediportaZadRek.QCRS.Tag.Queries
 {
-    public record IndexQuery
+    public record IndexQuery : IRequest<TagsWithPaginationDetails>
     {
         public int CurrentPage { get; set; }
         public int PageSize { get; set; }
@@ -13,7 +14,7 @@ namespace MediportaZadRek.QCRS.Tag.Queries
         public SortOrder SortOrder { get; set; }
     }
 
-    public class IndexQueryHandler
+    public class IndexQueryHandler : IRequestHandler<IndexQuery, TagsWithPaginationDetails>
     {
         private readonly IDbContext _dbContext;
 
@@ -22,24 +23,23 @@ namespace MediportaZadRek.QCRS.Tag.Queries
             _dbContext = dbContext;
         }
 
-        public TagsWithPaginationDetails Handle(IndexQuery request)
+        public Task<TagsWithPaginationDetails> Handle(IndexQuery request, CancellationToken cancellationToken)
         {
             var tags = _dbContext.Tags.ToList();
             var total = tags.Count();
 
-            tags = (List<Models.Tag>)new IndexQueryPreprocessor()
+            tags = (List<Models.Tag>)new CollectionPreprocessor()
                        .AddHandler(new OrderedListHandler(request.SortParam, request.SortOrder))
                        .AddHandler(new PaginatedListHandler(request.PageSize, request.CurrentPage))
                        .Process(tags);
 
-            return new TagsWithPaginationDetails()
+            return Task.FromResult(new TagsWithPaginationDetails()
             {
                 Items = tags,
                 Total = total,
                 PageSize = request.PageSize,
                 CurrentPage = request.CurrentPage
-            };
-
+            });
         }
     }
 }

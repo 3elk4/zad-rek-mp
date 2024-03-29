@@ -1,6 +1,7 @@
 using MediportaZadRek.Controllers.SwaggerFilters;
 using MediportaZadRek.Data;
 using MediportaZadRek.Models;
+using MediportaZadRek.QCRS.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -12,6 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("Tags"));
 builder.Services.AddScoped<TagsContextInitializer>();
+builder.Services.AddScoped<IDbContext>(provider => provider.GetRequiredService<AppDbContext>());
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

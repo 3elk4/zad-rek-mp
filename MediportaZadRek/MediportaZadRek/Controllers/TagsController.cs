@@ -1,6 +1,7 @@
-﻿using MediportaZadRek.Data;
+﻿using MediatR;
 using MediportaZadRek.Models;
 using MediportaZadRek.QCRS.Tag;
+using MediportaZadRek.QCRS.Tag.Commands;
 using MediportaZadRek.QCRS.Tag.Queries;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,14 +12,12 @@ namespace MediportaZadRek.Controllers
     public class TagsController : ControllerBase
     {
         private readonly ILogger<TagsController> _logger;
-        private readonly AppDbContext _context;
-        private readonly TagsContextInitializer _initializer;
+        private readonly IMediator _mediator;
 
-        public TagsController(ILogger<TagsController> logger, AppDbContext context, TagsContextInitializer initializer)
+        public TagsController(ILogger<TagsController> logger, IMediator mediator)
         {
             _logger = logger;
-            _context = context;
-            _initializer = initializer;
+            _mediator = mediator;
         }
 
         /// <summary>
@@ -39,8 +38,7 @@ namespace MediportaZadRek.Controllers
             try
             {
                 var request = new IndexQuery() { CurrentPage = currentPage, PageSize = pageSize, SortParam = sortParam, SortOrder = sortOrder };
-                var handler = new IndexQueryHandler(_context); //todo: zastanowić się czy tak do tego podejść? czy jednak jakiś mediator?
-                var result = handler.Handle(request);
+                var result = await _mediator.Send(request);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -63,7 +61,8 @@ namespace MediportaZadRek.Controllers
         {
             try
             {
-                await _initializer.RefreshAsync();
+                var request = new RefreshCommand();
+                await _mediator.Send(request);
                 return Ok();
             }
             catch (Exception ex)

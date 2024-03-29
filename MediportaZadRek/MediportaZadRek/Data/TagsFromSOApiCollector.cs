@@ -1,4 +1,5 @@
-﻿using MediportaZadRek.Data.JsonModels;
+﻿using MediportaZadRek.Data.Exceptions;
+using MediportaZadRek.Data.JsonModels;
 using MediportaZadRek.Models;
 using Newtonsoft.Json;
 using System.Net;
@@ -34,7 +35,7 @@ namespace MediportaZadRek.Data
                     else
                     {
                         var error = DeserializeAsError(result);
-                        //throw new InvalidResponseException($"Invalid response with status code {error.StatusCode}. Cause: {error.Message}.");
+                        throw new InvalidResponseException($"Invalid response with status code {error.StatusCode}. Cause: {error.Message}.");
                     }
                 }
             }
