@@ -1,4 +1,4 @@
-﻿namespace MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.Common
+﻿namespace MediportaZadRek.QCRS.Common.DataPreprocessing.Common
 {
     public interface IHandler
     {

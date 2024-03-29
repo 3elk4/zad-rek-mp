@@ -1,16 +1,16 @@
-﻿using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.Common;
+﻿using MediportaZadRek.QCRS.Common.DataPreprocessing.Common;
 
 namespace MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing
 {
-    public class IndexQueryPreprocessor
+    public class CollectionPreprocessor
     {
         private List<IHandler> handlers;
-        public IndexQueryPreprocessor()
+        public CollectionPreprocessor()
         {
             handlers = new List<IHandler>();
         }
 
-        public IndexQueryPreprocessor AddHandler(IHandler handler)
+        public CollectionPreprocessor AddHandler(IHandler handler)
         {
             handlers.Add(handler);
             return this;
