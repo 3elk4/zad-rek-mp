@@ -1,4 +1,6 @@
 ﻿using MediportaZadRek.Data;
+using MediportaZadRek.Models;
+using MediportaZadRek.QCRS.Tag;
 using MediportaZadRek.QCRS.Tag.Queries;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,23 +21,20 @@ namespace MediportaZadRek.Controllers
             _initializer = initializer;
         }
 
-        //todo: swagger docs - details
-
         /// <summary>
         /// Gets paginated collection of sorted tags.
         /// </summary>
-        /// <param name="currentPage"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="sortParam"></param>
-        /// <param name="sortOrder"></param>
-        /// <remarks>???</remarks>
-        /// <response code="200">Returns collection of tags with pagination details</response>
-        /// <response code="400">If collection is out of range</response>
+        /// <param name="currentPage"> Current page. </param>
+        /// <param name="pageSize"> Tags per page. </param>
+        /// <param name="sortParam"> Tag parameter to sort by. </param>
+        /// <param name="sortOrder"> Collection order. </param>
+        /// <response code="200"> Returns collection of tags with pagination details </response>
+        /// <response code="400"> If sortParam or sortOrder is wrong. </response>
         [HttpGet(Name = "Get Tags")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<TagsWithPaginationDetails>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Produces("application/json")]
-        public async Task<IActionResult> Index(int currentPage = 1, int pageSize = 10, string sortParam = "Name", string sortOrder = "asc")
+        public async Task<IActionResult> Index(int currentPage = 1, int pageSize = 10, string sortParam = "Name", SortOrder sortOrder = SortOrder.asc)
         {
             try
             {
@@ -54,8 +53,8 @@ namespace MediportaZadRek.Controllers
         /// <summary>
         /// Refreshes tags in database.
         /// </summary>
-        /// <response code="200">Tags in database are cleared and reseed</response>
-        /// <response code="500">If any server problem with refreshing occurs</response>
+        /// <response code="200"> Tags in database are cleared and reseed </response>
+        /// <response code="500"> If any server problem with refreshing occurs </response>
         [HttpPut(Name = "Refresh Tags")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

@@ -1,6 +1,9 @@
+using MediportaZadRek.Controllers.SwaggerFilters;
 using MediportaZadRek.Data;
+using MediportaZadRek.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +23,12 @@ builder.Services.AddSwaggerGen(options =>
         Title = "Tags API",
         Description = "An ASP.NET Core Web API for tags from StackOverflow API"
     });
+
+    options.SchemaFilter<EnumSchemaFilter>();
+    options.DocumentFilter<CustomModelDocumentFilter<Tag>>();
+
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
 var app = builder.Build();
