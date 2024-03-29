@@ -1,6 +1,8 @@
 ﻿using MediportaZadRek.Data;
+using MediportaZadRek.Models;
 using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing;
 using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.Common;
+using MediportaZadRek.QCRS.Common.Interfaces;
 
 namespace MediportaZadRek.QCRS.Tag.Queries
 {
@@ -9,7 +11,7 @@ namespace MediportaZadRek.QCRS.Tag.Queries
         public int CurrentPage { get; set; }
         public int PageSize { get; set; }
         public string SortParam { get; set; }
-        public string SortOrder { get; set; }
+        public SortOrder SortOrder { get; set; }
     }
 
     public class IndexQueryPreprocessor
@@ -48,7 +50,7 @@ namespace MediportaZadRek.QCRS.Tag.Queries
 
     public class IndexQueryHandler
     {
-        private readonly AppDbContext _dbContext;
+        private readonly IDbContext _dbContext;
 
         public IndexQueryHandler(AppDbContext dbContext)
         {
