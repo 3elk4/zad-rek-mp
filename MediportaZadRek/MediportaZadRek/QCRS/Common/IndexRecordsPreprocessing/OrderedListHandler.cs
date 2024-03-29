@@ -1,4 +1,6 @@
-﻿using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.Common;
+﻿using MediportaZadRek.Models;
+using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.Common;
+using Microsoft.OpenApi.Extensions;
 using System.Linq.Dynamic.Core;
 
 namespace MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing
@@ -6,9 +8,9 @@ namespace MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing
     public class OrderedListHandler : AbstractHandler
     {
         private string sortParam { get; set; }
-        private string sortOrder { get; set; }
+        private SortOrder sortOrder { get; set; }
 
-        public OrderedListHandler(string sortParam, string sortOrder)
+        public OrderedListHandler(string sortParam, SortOrder sortOrder)
         {
             this.sortParam = sortParam;
             this.sortOrder = sortOrder;
@@ -18,7 +20,7 @@ namespace MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing
         {
             var items = ((List<Models.Tag>)request).AsQueryable();
 
-            items = items.OrderBy($"{sortParam} {sortOrder}");
+            items = items.OrderBy($"{sortParam} {sortOrder.GetDisplayName()}");
 
             if (_nextHandler != null)
             {
