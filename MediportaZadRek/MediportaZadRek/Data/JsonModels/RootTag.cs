@@ -1,6 +1,6 @@
 ﻿using MediportaZadRek.Models;
 
-namespace MediportaZadRek.Data.Models
+namespace MediportaZadRek.Data.JsonModels
 {
     public class RootTag
     {

@@ -1,5 +1,4 @@
-﻿using MediportaZadRek.Data.Exceptions;
-using MediportaZadRek.Data.Models;
+﻿using MediportaZadRek.Data.JsonModels;
 using MediportaZadRek.Models;
 using Newtonsoft.Json;
 using System.Net;
@@ -32,6 +31,11 @@ namespace MediportaZadRek.Data
                     {
                         tags.AddRange(deserializedTags);
                     }
+                    else
+                    {
+                        var error = DeserializeAsError(result);
+                        //throw new InvalidResponseException($"Invalid response with status code {error.StatusCode}. Cause: {error.Message}.");
+                    }
                 }
             }
 
@@ -44,17 +48,19 @@ namespace MediportaZadRek.Data
             return root?.Items;
         }
 
+        private static Error DeserializeAsError(string data)
+        {
+#pragma warning disable CS8603 // Possible null reference return.
+            return JsonConvert.DeserializeObject<Error>(data);
+#pragma warning restore CS8603 // Possible null reference return.
+        }
+
         private static async Task<string> GetTagsFromApiByPageAsync(HttpClient client, int page)
         {
             var urlParams = $"?page={page}&{STATIC_URL_PARAMS}";
 
             using (HttpResponseMessage response = await client.GetAsync(urlParams))
             {
-                if (response.StatusCode != HttpStatusCode.OK)
-                {
-                    throw new InvalidResponseException($"Invalid response with status code {response.StatusCode}");
-                }
-
                 using (HttpContent content = response.Content)
                 {
                     return await content.ReadAsStringAsync();
