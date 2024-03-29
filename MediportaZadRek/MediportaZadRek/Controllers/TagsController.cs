@@ -26,7 +26,7 @@ namespace MediportaZadRek.Controllers
         /// <param name="currentPage"> Current page. </param>
         /// <param name="pageSize"> Tags per page. </param>
         /// <param name="sortParam"> Tag parameter to sort by. </param>
-        /// <param name="sortOrder"> Collection order. </param>
+        /// <param name="sortOrder"> Collection order -> 0 = asc, 1 = desc. </param>
         /// <response code="200"> Returns collection of tags with pagination details </response>
         /// <response code="400"> If sortParam or sortOrder is wrong. </response>
         [HttpGet(Name = "Get Tags")]

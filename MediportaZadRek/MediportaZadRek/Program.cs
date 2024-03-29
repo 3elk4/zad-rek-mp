@@ -27,7 +27,6 @@ builder.Services.AddSwaggerGen(options =>
         Description = "An ASP.NET Core Web API for tags from StackOverflow API"
     });
 
-    options.SchemaFilter<EnumSchemaFilter>();
     options.DocumentFilter<CustomModelDocumentFilter<Tag>>();
 
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
