@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  mediportazadrek:
+    image: ${DOCKER_REGISTRY-}mediportazadrek
+    build:
+      context: .
+      dockerfile: MediportaZadRek/Dockerfile
