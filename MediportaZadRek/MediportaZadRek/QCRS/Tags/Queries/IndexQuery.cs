@@ -4,7 +4,7 @@ using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing;
 using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.ListHandlers;
 using MediportaZadRek.QCRS.Common.Interfaces;
 
-namespace MediportaZadRek.QCRS.Tag.Queries
+namespace MediportaZadRek.QCRS.Tags.Queries
 {
     public record IndexQuery : IRequest<TagsWithPaginationDetails>
     {
@@ -28,7 +28,7 @@ namespace MediportaZadRek.QCRS.Tag.Queries
             var tags = _dbContext.Tags.ToList();
             var total = tags.Count();
 
-            tags = (List<Models.Tag>)new CollectionPreprocessor()
+            tags = (List<Tag>)new CollectionPreprocessor()
                        .AddHandler(new OrderedListHandler(request.SortParam, request.SortOrder))
                        .AddHandler(new PaginatedListHandler(request.PageSize, request.CurrentPage))
                        .Process(tags);

@@ -1,4 +1,4 @@
-﻿using MediportaZadRek.QCRS.Tag;
+﻿using MediportaZadRek.QCRS.Tags;
 using System.ComponentModel.DataAnnotations;
 
 namespace UnitTests.QCRS.Tag

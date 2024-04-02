@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using MediportaZadRek.Data;
 
-namespace MediportaZadRek.QCRS.Tag.Commands
+namespace MediportaZadRek.QCRS.Tags.Commands
 {
     public record RefreshCommand : IRequest
     {

@@ -49,7 +49,7 @@ namespace MediportaZadRek.Data
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while clearing the database.");
+                _logger.LogError(ex, "An error occurred while refreshing the database.");
                 throw;
             }
         }

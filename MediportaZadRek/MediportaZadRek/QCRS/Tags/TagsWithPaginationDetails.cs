@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MediportaZadRek.QCRS.Tag
+namespace MediportaZadRek.QCRS.Tags
 {
     public class TagsWithPaginationDetails
     {

@@ -1,5 +1,5 @@
 ﻿using MediportaZadRek.Models;
-using MediportaZadRek.QCRS.Tag;
+using MediportaZadRek.QCRS.Tags;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http.Json;
 

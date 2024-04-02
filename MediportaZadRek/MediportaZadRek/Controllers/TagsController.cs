@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using MediportaZadRek.Models;
-using MediportaZadRek.QCRS.Tag;
-using MediportaZadRek.QCRS.Tag.Commands;
-using MediportaZadRek.QCRS.Tag.Queries;
+using MediportaZadRek.QCRS.Tags;
+using MediportaZadRek.QCRS.Tags.Commands;
+using MediportaZadRek.QCRS.Tags.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MediportaZadRek.Controllers
