@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("Tags"));
+builder.Services.AddScoped<TagsFromSOApiCollector>();
 builder.Services.AddScoped<TagsContextInitializer>();
 builder.Services.AddScoped<IDbContext>(provider => provider.GetRequiredService<AppDbContext>());
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));

@@ -1,4 +1,5 @@
-﻿using MediportaZadRek.Models;
+﻿using MediportaZadRek.Data.Interfaces;
+using MediportaZadRek.Models;
 
 namespace MediportaZadRek.Data
 {
@@ -18,11 +19,13 @@ namespace MediportaZadRek.Data
     {
         private readonly ILogger<TagsContextInitializer> _logger;
         private readonly AppDbContext _context;
+        private readonly IThirdPartyApiCollector<List<Tag>> _collector;
 
-        public TagsContextInitializer(ILogger<TagsContextInitializer> logger, AppDbContext context)
+        public TagsContextInitializer(ILogger<TagsContextInitializer> logger, AppDbContext context, IThirdPartyApiCollector<List<Tag>> collector)
         {
             _logger = logger;
             _context = context;
+            _collector = collector;
         }
 
         public async Task SeedAsync()
@@ -34,7 +37,6 @@ namespace MediportaZadRek.Data
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while seeding the database.");
-                throw;
             }
         }
 
@@ -56,7 +58,7 @@ namespace MediportaZadRek.Data
         {
             if (!_context.Tags.Any())
             {
-                var tags = await TagsFromSOApiCollector.CollectAsync();
+                var tags = await _collector.CollectAsync();
 
                 SetPercentagePopulations(tags);
 

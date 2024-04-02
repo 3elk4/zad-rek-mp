@@ -1,4 +1,5 @@
 ﻿using MediportaZadRek.Data.Exceptions;
+using MediportaZadRek.Data.Interfaces;
 using MediportaZadRek.Data.JsonModels;
 using MediportaZadRek.Models;
 using Newtonsoft.Json;
@@ -6,7 +7,7 @@ using System.Net;
 
 namespace MediportaZadRek.Data
 {
-    public static class TagsFromSOApiCollector
+    public class TagsFromSOApiCollector : IThirdPartyApiCollector<List<Tag>>
     {
         private static readonly string BASE_URL = "https://api.stackexchange.com/2.3/tags";
         private static readonly int PAGE_SIZE = 100;
@@ -14,8 +15,9 @@ namespace MediportaZadRek.Data
         private static readonly string SORT = "popular";
         private static readonly string SITE = "stackoverflow";
         private static readonly string STATIC_URL_PARAMS = $"pagesize={PAGE_SIZE}&order={ORDER}&sort={SORT}&site={SITE}";
+        private static readonly int MAX_REQUESTS = 10;
 
-        public static async Task<List<Tag>> CollectAsync()
+        public async Task<List<Tag>> CollectAsync()
         {
             List<Tag> tags = new List<Tag>();
 
@@ -23,7 +25,7 @@ namespace MediportaZadRek.Data
 
             using (HttpClient client = new HttpClient(clientHandler) { BaseAddress = new Uri(BASE_URL) })
             {
-                for (int i = 1; i <= 10; i++)
+                for (int i = 1; i <= MAX_REQUESTS; i++)
                 {
                     var result = await GetTagsFromApiByPageAsync(client, i);
                     var deserializedTags = Deserialize(result);
@@ -43,20 +45,20 @@ namespace MediportaZadRek.Data
             return tags;
         }
 
-        private static List<Tag>? Deserialize(string data)
+        private List<Tag>? Deserialize(string data)
         {
             RootTag? root = JsonConvert.DeserializeObject<RootTag>(data);
             return root?.Items;
         }
 
-        private static Error DeserializeAsError(string data)
+        private Error DeserializeAsError(string data)
         {
 #pragma warning disable CS8603 // Possible null reference return.
             return JsonConvert.DeserializeObject<Error>(data);
 #pragma warning restore CS8603 // Possible null reference return.
         }
 
-        private static async Task<string> GetTagsFromApiByPageAsync(HttpClient client, int page)
+        private async Task<string> GetTagsFromApiByPageAsync(HttpClient client, int page)
         {
             var urlParams = $"?page={page}&{STATIC_URL_PARAMS}";
 
