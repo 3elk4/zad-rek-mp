@@ -39,6 +39,9 @@ namespace MediportaZadRek.Controllers
             {
                 var request = new IndexQuery() { CurrentPage = currentPage, PageSize = pageSize, SortParam = sortParam, SortOrder = sortOrder };
                 var result = await _mediator.Send(request);
+
+                _logger.LogInformation($"Requested {result.Items.Count()} tags. Current page: {currentPage}, Page size: {pageSize}, Sort param: {sortParam}, Sort order: {sortOrder}.");
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -63,6 +66,9 @@ namespace MediportaZadRek.Controllers
             {
                 var request = new RefreshCommand();
                 await _mediator.Send(request);
+
+                _logger.LogInformation($"Tags refreshed successfully.");
+
                 return Ok();
             }
             catch (Exception ex)

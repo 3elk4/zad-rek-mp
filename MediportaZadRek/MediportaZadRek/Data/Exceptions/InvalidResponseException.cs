@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace MediportaZadRek.Data.Exceptions
+﻿namespace MediportaZadRek.Data.Exceptions
 {
     [Serializable]
     internal class InvalidResponseException : Exception
@@ -14,10 +12,6 @@ namespace MediportaZadRek.Data.Exceptions
         }
 
         public InvalidResponseException(string? message, Exception? innerException) : base(message, innerException)
-        {
-        }
-
-        protected InvalidResponseException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }
