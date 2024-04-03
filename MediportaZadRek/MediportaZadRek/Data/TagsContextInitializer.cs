@@ -1,4 +1,5 @@
-﻿using MediportaZadRek.Data.Interfaces;
+﻿using MediportaZadRek.Data.AsyncCommands.Context.Tags;
+using MediportaZadRek.Data.Interfaces;
 using MediportaZadRek.Models;
 
 namespace MediportaZadRek.Data
@@ -32,62 +33,13 @@ namespace MediportaZadRek.Data
         {
             try
             {
-                await TrySeedAsync();
+                var command = new SeedAsyncCommand(_context, _collector);
+                await command.ExecuteAsync();
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while seeding the database.");
             }
-        }
-
-        public async Task RefreshAsync()
-        {
-            try
-            {
-                await TryClearAsync();
-                await TrySeedAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while refreshing the database.");
-                throw;
-            }
-        }
-
-        private async Task TrySeedAsync()
-        {
-            if (!_context.Tags.Any())
-            {
-                var tags = await _collector.CollectAsync();
-
-                SetPercentagePopulations(tags);
-
-                foreach (var tag in tags)
-                {
-                    _context.Tags.Add(tag);
-                }
-
-                await _context.SaveChangesAsync();
-            }
-        }
-        private async Task TryClearAsync()
-        {
-            if (_context.Tags.Any())
-            {
-                _context.Tags.RemoveRange(_context.Tags);
-                await _context.SaveChangesAsync();
-            }
-        }
-
-        private void SetPercentagePopulations(List<Tag> tags)
-        {
-            decimal totalCount = tags.Select(item => item.Count).Sum();
-
-            tags.ForEach(tag =>
-            {
-                var percentagePopulation = tag.Count * 100 / totalCount;
-                tag.PercentagePopulation = decimal.Round(percentagePopulation, 2);
-            });
         }
     }
 }
