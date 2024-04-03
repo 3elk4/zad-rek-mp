@@ -1,6 +1,6 @@
 ﻿using MediportaZadRek.Models;
 using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing;
-using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.ListHandlers;
+using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.CollectionHandlers;
 
 namespace UnitTests.QCRS.Common
 {
@@ -25,7 +25,7 @@ namespace UnitTests.QCRS.Common
             var tags = GenerateTags();
             var collectionPreprocessor = new CollectionPreprocessor();
 
-            collectionPreprocessor = collectionPreprocessor.AddHandler(new OrderedListHandler("Name", SortOrder.desc));
+            collectionPreprocessor = collectionPreprocessor.AddHandler(new OrderedCollectionHandler("Name", SortOrder.desc));
 
             var result = (List<MediportaZadRek.Models.Tag>)collectionPreprocessor.Process(tags);
 

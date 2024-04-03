@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using MediportaZadRek.Models;
 using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing;
-using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.ListHandlers;
+using MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.CollectionHandlers;
 using MediportaZadRek.QCRS.Common.Interfaces;
 
 namespace MediportaZadRek.QCRS.Tags.Queries
@@ -29,8 +29,8 @@ namespace MediportaZadRek.QCRS.Tags.Queries
             var total = tags.Count();
 
             tags = (List<Tag>)new CollectionPreprocessor()
-                       .AddHandler(new OrderedListHandler(request.SortParam, request.SortOrder))
-                       .AddHandler(new PaginatedListHandler(request.PageSize, request.CurrentPage))
+                       .AddHandler(new OrderedCollectionHandler(request.SortParam, request.SortOrder))
+                       .AddHandler(new PaginatedCollectionHandler(request.PageSize, request.CurrentPage))
                        .Process(tags);
 
             return Task.FromResult(new TagsWithPaginationDetails()

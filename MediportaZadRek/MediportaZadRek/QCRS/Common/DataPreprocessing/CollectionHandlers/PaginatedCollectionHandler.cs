@@ -1,13 +1,14 @@
-﻿using MediportaZadRek.QCRS.Common.DataPreprocessing.Common;
+﻿using MediportaZadRek.Models;
+using MediportaZadRek.QCRS.Common.DataPreprocessing.Common;
 
-namespace MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.ListHandlers
+namespace MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.CollectionHandlers
 {
-    public class PaginatedListHandler : AbstractHandler
+    public class PaginatedCollectionHandler : AbstractHandler
     {
         private int pageSize { get; set; }
         private int currentPage { get; set; }
 
-        public PaginatedListHandler(int pageSize, int currentPage)
+        public PaginatedCollectionHandler(int pageSize, int currentPage)
         {
             this.pageSize = pageSize;
             this.currentPage = currentPage;
@@ -15,7 +16,7 @@ namespace MediportaZadRek.QCRS.Common.IndexRecordsPreprocessing.ListHandlers
 
         public override object Handle(object request)
         {
-            var items = (List<Models.Tag>)request;
+            var items = (List<Tag>)request;
             items = items.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
 
             if (_nextHandler != null)
